@@ -1,18 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 
 type ProfilePageProps = {
-  params: { username: string }
+  params: Promise<{ username: string }>
 }
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
+  const { username } = await params
   const supabase = await createClient()
   
   const { data: profile, error } = await supabase
     .from('users')
     .select('*')
-    .eq('username', params.username)
+    .eq('username', username)
     .single()
 
   if (error || !profile) {
@@ -60,7 +61,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-white rounded-lg p-4 text-center font-medium text-gray-900 hover:bg-gray-50 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  className="block w-full bg-white rounded-lg p-4 text-center font-medium text-gray-900 hover:bg-gray-50 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-transform"
                 >
                   {link.title}
                 </a>
@@ -86,12 +87,13 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 }
 
 export async function generateMetadata({ params }: ProfilePageProps) {
+  const { username } = await params
   const supabase = await createClient()
   
   const { data: profile } = await supabase
     .from('users')
     .select('display_name, bio, username')
-    .eq('username', params.username)
+    .eq('username', username)
     .single()
 
   if (!profile) {
