@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 type ProfilePageProps = {
@@ -72,9 +73,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
 
           <div className="text-center mt-12">
-            <a href='/signup' className="text-white/60 text-sm">
-              Create your own link page
-            </a>
+            <p className="text-white/60 text-sm">
+              <Link href="/signup" className="hover:text-white transition-colors">
+                Create your own link page
+              </Link>
+            </p>
           </div>
         </div>
       </div>
