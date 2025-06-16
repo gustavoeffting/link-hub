@@ -4,7 +4,7 @@ Live link: https://link-hub-sage.vercel.app/
 
 - Authentication
 - Public page with links
-- Dashboard to add, delete and sort links
+- Dashboard to add, edit, delete and sort links
 
 ## Scope decisions and key trade-offs
 
